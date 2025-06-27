@@ -151,6 +151,14 @@
     <header>
         <h1>Cadastro de Metragens</h1>
     </header>
+
+    <div id="erros" style='color: red; font-size: 25px;'>
+    
+        <!-- escrever las cosas aqui -->
+
+        <?= $msgErro ?>
+    
+    </div>
     
     <main>
         <form action="" method="post">
@@ -255,13 +263,7 @@
 
             <button class="btn btn-primary" type="submit">Enviar</button>
 
-            <div id="erros" style='color: red; font-size: 25px;'>
-    
-                <!-- escrever las cosas aqui -->
-    
-                <?= $msgErro ?>
-    
-            </div>
+            
         </form>
 
 
@@ -272,6 +274,7 @@
                         <tr>
                             <th>Capa</th>
                             <th>Nome</th>
+                            <th>Diretor</th>
                             <th>Tipo</th>
                             <th>Gênero</th>
                             <th>Lançamento</th>
@@ -280,6 +283,7 @@
                     <tbody>
                         <?php foreach ($metragens as $m):
                             $gen = "";
+                            $tip = "";
                             
                             switch ($m['genero']) {
                                 case "T":
@@ -310,14 +314,24 @@
                                     $gen = "Documentário";
                                     break;
                             }
+                            
+                            switch ($m['tipo']){
+                                case "F":
+                                    $tip = "Filme";
+                                    break;
+                                case "S":
+                                    $tip = "Série";
+                                    break;
+                            }
                         ?>
                         <tr>
                             <td><img src="<?= $m['linkCapa'] ?>" width="75px" height="75px"></td>
                             <td><?= $m['nome'] ?></td>
-                            <td><?= $m['tipo'] ?></td>
+                            <td><?= $m['diretor'] ?></td>
+                            <td><?= $tip ?></td>
                             <td><?= $gen ?></td>
                             <td><?= $m['dataLancamento'] ?></td>
-                            <td><a href="excluir.php?id=<?=$m['id']?>" onclick="return confirm('confirma a exclosão?')">excluir</a></td>
+                            <td><a href="excluir.php?id=<?=$m['id']?>" onclick="return confirm('confirma a exclosão?')"><button class="btn btn-primary">excluir</button></a></td>
                         </tr>
                         <?php endforeach;?>
                     </tbody>
