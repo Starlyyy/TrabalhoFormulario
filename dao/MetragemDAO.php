@@ -7,7 +7,7 @@ require_once "util/conexao.php";
 
 class MetragemDAO {
 
-    public function inserirMetragem(Metragem $metragem){
+    static public function inserirMetragem(Metragem $metragem){
         $sql = "INSERT INTO metragens
                 (tipo, nome, diretor, dataLancamento, genero, linkCapa, linkStreaming, faixaEtaria, duracao, estreiaNoCinema, qtdEpisodios, qtdTemporadas, dataEncerramento)
                 values
@@ -17,7 +17,7 @@ class MetragemDAO {
 
         $stm = $con->prepare($sql);
 
-        if ($metragem instanceof Filme) {
+        if ($metragem instanceof Filme){
             $stm->execute(array($metragem->getTipo(),
                                 $metragem->getNome(),
                                 $metragem->getDiretor(),
@@ -32,7 +32,7 @@ class MetragemDAO {
                                 null,
                                 null
                                 ));
-        } elseif ($metragem instanceof Serie) {
+        } elseif ($metragem instanceof Serie){
             $stm->execute(array($metragem->getTipo(),
                                 $metragem->getNome(),
                                 $metragem->getDiretor(),
@@ -50,20 +50,29 @@ class MetragemDAO {
         } 
     }
 
-    public function listarMetragens(){
+    static public function listarMetragens(){
         $sql = "SELECT * FROM metragens";
 
         $con = Conexao::getConexao();
 
         $stm = $con->prepare($sql);
         $stm->execute();
-        $registros = $stm->fetchAll();
+        $metragens = $stm->fetchAll();
 
-        $metragens = $this->mapMetragens($registros);
+        
         return $metragens;
     }
 
-    private function mapMetragens (array $registros){
+    static public function excluirMetragem($id){
+        $con = Conexao::getConexao();
+
+        $sql = "DELETE FROM metragens WHERE id = ?";
+
+        $stm = $con->prepare($sql);
+        $stm->execute([$id]);
+    }
+
+    /*static private function mapMetragens (array $registros){
         
         $metragens = [];
 
@@ -94,7 +103,7 @@ class MetragemDAO {
         return $metragens;
     }
 
-    public function buscarPorId($busca) {
+    static public function buscarPorId($busca) {
         $sql = "SELECT * FROM metragens WHERE id = ?;";
 
         $con = Conexao::getConexao();
@@ -109,16 +118,5 @@ class MetragemDAO {
 
         $lista = $this->mapMetragens($lista);
         return $lista;
-    }
-
-    public function excluirMetragem($id){
-        $con = Conexao::getConexao();
-
-        $sql = "DELETE FROM metragens WHERE id = ?";
-
-        $stm = $con->prepare($sql);
-        $stm->execute([$id]);
-    }
-
-
+    }*/
 }

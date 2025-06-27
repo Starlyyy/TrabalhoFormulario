@@ -5,8 +5,8 @@ CREATE TABLE metragens (
     diretor varchar(70) NOT NULL,
     dataLancamento date NOT NULL,
     genero varchar(2) NOT NULL,
-    linkCapa varchar(100),
-    linkStreaming varchar(100),
+    linkCapa varchar(2000),
+    linkStreaming varchar(2000),
     faixaEtaria varchar(2) NOT NULL,
     duracao time, /*a partir daqui sao atributos das classes filhas*/
     estreiaNoCinema date,

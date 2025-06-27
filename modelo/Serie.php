@@ -9,46 +9,32 @@ Class Serie extends Metragem{
 
     //Metodos
 
+    public function __construct($n, $d, $dl, $g, $lc, $ls, $fe, $qe, $qt, $de){
+        $this->nome = $n;
+        $this->diretor = $d;
+        $this->dataLancamento = $dl;
+        $this->genero = $g;
+        $this->linkCapa = $lc;
+        $this->linkStreaming = $ls;
+        $this->faixaEtaria = $fe;
+        $this->qtdEpisodios = $qe;
+        $this->qtdTemporadas = $qt;
+        $this->dataDeEncerramento = $de;
+    }
+
     public function getTipo(){
         return "S";
     }
-    
-    // GETTERS AND SETTERS
 
-    public function getQtdEpisodios()
-    {
+    public function getQtdEpisodios(){
         return $this->qtdEpisodios;
     }
 
-    public function setQtdEpisodios($qtdEpisodios): self
-    {
-        $this->qtdEpisodios = $qtdEpisodios;
-
-        return $this;
-    }
-
-    public function getDataDeEncerramento()
-    {
+    public function getDataDeEncerramento(){
         return $this->dataDeEncerramento;
     }
 
-    public function setDataDeEncerramento($dataDeEncerramento): self
-    {
-        $this->dataDeEncerramento = $dataDeEncerramento;
-
-        return $this;
-    }
-
-    public function getQtdTemporadas()
-    {
+    public function getQtdTemporadas(){
         return $this->qtdTemporadas;
     }
-
-    public function setQtdTemporadas($qtdTemporadas): self
-    {
-        $this->qtdTemporadas = $qtdTemporadas;
-
-        return $this;
-    }
-    
 }

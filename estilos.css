@@ -1,164 +1,72 @@
-:root {
-            --primary-color: #6c5ce7;
-            --secondary-color: #a29bfe;
-            --dark-color: #2d3436;
-            --light-color: #f5f6fa;
-        }
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 
-        .main-container {
-            padding: 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        h1 {
-            color: var(--primary-color);
-            margin-bottom: 2rem;
-            font-weight: 700;
-            text-align: center;
-        }
-
-        .form-container {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-        }
-
-        .form-section {
-            margin-bottom: 1.5rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid #eee;
-        }
-
-        .form-section h3 {
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-            font-size: 1.2rem;
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: var(--dark-color);
-        }
-
-        input[type="text"],
-        input[type="date"],
-        input[type="number"],
-        select {
-            width: 100%;
-            padding: 0.5rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            transition: border-color 0.3s;
-        }
-
-        input[type="text"]:focus,
-        input[type="date"]:focus,
-        input[type="number"]:focus,
-        select:focus {
-            border-color: var(--primary-color);
-            outline: none;
-            box-shadow: 0 0 0 0.25rem rgba(108, 92, 231, 0.25);
-        }
-
-        .radio-group {
-            display: flex;
-            gap: 1rem;
-            margin-top: 0.5rem;
-        }
-
-        .radio-group label {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: normal;
-            cursor: pointer;
-        }
-
-        button {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 4px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            width: 100%;
-            margin-top: 1rem;
-        }
-
-        button:hover {
-            background-color: #5649c0;
-        }
-
-        .table-container {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-            height: 100%;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 0.75rem;
-            text-align: left;
-        }
-
-        td {
-            padding: 0.75rem;
-            border-bottom: 1px solid #eee;
-        }
-
-        tr:hover {
-            background-color: rgba(108, 92, 231, 0.1);
-        }
-
-        /* Esconde as seções específicas inicialmente */
-        .filme,
-        .serie {
-            display: none;
-        }
-
-        /* Mostra a seção correta baseada na seleção */
-        input[value="F"]:checked~.filme {
-            display: block;
-        }
-
-        input[value="S"]:checked~.serie {
-            display: block;
-        }
+    font-family: 'Montserrat', sans-serif;
+}
 
 
-        /* Responsividade */
-        @media (max-width: 768px) {
-            .content-row {
-                flex-direction: column;
-            }
+body{
+    background-color: #FBFBFB;
+}
 
-            .form-container,
-            .table-container {
-                width: 100% !important;
-            }
-        }
+header{
+    background-color: #6C5CE7;
+    color: #ffffff;
 
-        
+    text-align: center;
+    padding: 15px;
+    margin-bottom: 20px;
+
+    box-shadow: 0px 2px 2px #EAEAEA,
+                0px 4px 4px #EAEAEA,
+                0px 8px 8px #EAEAEA,
+                0px 14px 14px #EAEAEA;
+}
+
+main{
+    display: flex;
+
+    justify-content: center;
+    gap: 20px;
+    
+}
+
+h2, h3{
+    color: #6C5CE7;
+}
+
+
+form, .tabela-metragens{
+    background-color: #ffffff;
+
+    width: 45%;
+    padding: 15px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    border: 1px, solid, #EAEAEA;
+
+    box-shadow: 0px 2px 2px #EAEAEA,
+                0px 4px 4px #EAEAEA,
+                0px 8px 8px #EAEAEA,
+                0px 14px 14px #EAEAEA;
+}
+
+label{
+    display: block;
+}
+
+label[for="tipo"]{
+    display: inline;
+}
+
+button{
+    background-color: #6C5CE7;
+}
+
+.filme + .serie{
+    display: none;
+}
