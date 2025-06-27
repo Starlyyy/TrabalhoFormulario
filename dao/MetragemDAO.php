@@ -3,7 +3,7 @@
 require_once "modelo/Metragem.php";
 require_once "modelo/Filme.php";
 require_once "modelo/Serie.php";
-require_once "util/conexao.php";
+require_once "util/Conexao.php";
 
 class MetragemDAO {
 

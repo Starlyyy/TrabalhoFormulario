@@ -1,4 +1,5 @@
 <?php
+
     require_once "util/Conexao.php";
     require_once "dao/MetragemDAO.php";
 
@@ -35,19 +36,101 @@
         $temporadas = $_POST['qtdTemporadas'];
         $encerramento = $_POST['encerramento'];
 
-        if($tipo == "F"){
-            $filme = new Filme($nome, $diretor, $lancamento, $genero, $capa, $streaming, $faixaEtaria, $duracao, $estreia);
+        //validar os dados
 
-            MetragemDAO::inserirMetragem($filme);
+        $erros = [];
 
-            header('location: index.php');
-        } else{
-            $serie = new Serie($nome, $diretor, $lancamento, $genero, $capa, $streaming, $faixaEtaria, $episodios, $temporadas, $encerramento);
+        if(!$nome) {
+            array_push($erros, "Informe o nome!");
 
-            MetragemDAO::inserirMetragem($serie);
+        } elseif(strlen($nome) < 3 || strlen($nome) > 50) {
+            array_push($erros, "O nome do filme nao pode ter menos de tres caracteres e nem exceder 50!");
+            
+        } else {
+            $sql = "SELECT id FROM metragens WHERE nome = ?";
+            $stm = $conn->prepare($sql);
+            $stm->execute([$nome]);
+            $result = $stm->fetchAll();
 
-            header('location: index.php');
+            if(count($result) > 0) {
+                array_push($erros, "Ja existe um filme/serie com esse titulo");
+            }
         }
+        
+        if(!$diretor) {
+            array_push($erros, "Informe o diretor!");
+        }
+        
+        if(!$lancamento) {
+            array_push($erros, "Informe a data de lancamento!");
+        }
+        
+        if(!$genero) {
+            array_push($erros, "Informe o genero!");
+        }
+        
+        if(!$capa) {
+            array_push($erros, "Informe o link da capa!");
+        } 
+        
+        if(!$streaming) {
+            array_push($erros, "Informe o link do streaming!");
+        } 
+        
+        if(!$faixaEtaria) {
+            array_push($erros, "Informe a faixa etaria!");
+        } 
+        
+        
+        if ($tipo == "F") {
+
+            if(!$duracao) {
+                array_push($erros, "Informe a duracao!");
+            } 
+            if(!$estreia) {
+                array_push($erros, "Informe a estreia!");
+            } 
+        }
+
+        if ($tipo == "S") {
+            if(!$episodios) {
+                array_push($erros, "Informe a quantidade de episodios!");
+            } 
+            
+            if(!$temporadas) {
+                array_push($erros, "Informe a quantidade de temporadas!");
+            } 
+            
+            if(!$encerramento) {
+                array_push($erros, "Informe a data de encerramento!");
+            } 
+        }
+        
+        
+
+        if(count($erros) == 0 ) {
+
+            if($tipo == "F"){
+                $filme = new Filme($nome, $diretor, $lancamento, $genero, $capa, $streaming, $faixaEtaria, $duracao, $estreia);
+
+                MetragemDAO::inserirMetragem($filme);
+
+                header('location: index.php');
+            } else{
+                $serie = new Serie($nome, $diretor, $lancamento, $genero, $capa, $streaming, $faixaEtaria, $episodios, $temporadas, $encerramento);
+
+                MetragemDAO::inserirMetragem($serie);
+
+                header('location: index.php');
+            }
+    
+
+        } else {
+
+            $msgErro = implode("<br>", $erros);
+
+        }
+
     }
 ?>
 
@@ -76,53 +159,55 @@
             <section class="form-section">
                 <div class="form-group">
                     <label for="nome">Nome:</label>
-                    <input type="text" name="nome" id="nome" class="form-control">
+                    <input type="text" name="nome" id="nome" class="form-control" value="<?=$nome?>">
                 </div>
 
                 <div class="form-group">
                     <label for="diretor">Diretor:</label>
-                    <input type="text" name="diretor" id="diretor" class="form-control">
+                    <input type="text" name="diretor" id="diretor" class="form-control" value="<?=$diretor?>">
                 </div>
 
                 <div class="form-group">
                     <label for="dataLancamento">Data de Lançamento:</label>
-                    <input type="date" name="dataLancamento" id="dataLancamento" class="form-control">
+                    <input type="date" name="dataLancamento" id="dataLancamento" class="form-control" value="<?=$lancamento?>">
                 </div>
-
+                
                 <div class="form-group">
                     <label for="genero">Gênero:</label>
                     <select name="genero" id="genero" class="form-select">
-                        <option value="T">Terror</option>
-                        <option value="S">Suspense</option>
-                        <option value="A">Ação</option>
-                        <option value="F">Ficção</option>
-                        <option value="FC">Ficção Científica</option>
-                        <option value="C">Comédia</option>
-                        <option value="R">Romance</option>
-                        <option value="DR">Drama</option>
-                        <option value="DO">Documentário</option>
+                        <option value='' <?php if($genero == ""){ echo "disabled selected hidden";} ?>>Escolha</option>
+                        <option value="T" <?php if($genero == "T"){ echo "selected";} ?>>Terror</option>
+                        <option value="S" <?php if($genero == "S"){ echo "selected";} ?>>Suspense</option>
+                        <option value="A" <?php if($genero == "A"){ echo "selected";} ?>>Ação</option>
+                        <option value="F" <?php if($genero == "F"){ echo "selected";} ?>>Ficção</option>
+                        <option value="FC" <?php if($genero == "FC"){ echo "selected";} ?>>Ficção Científica</option>
+                        <option value="C" <?php if($genero == "C"){ echo "selected";} ?>>Comédia</option>
+                        <option value="R" <?php if($genero == "R"){ echo "selected";} ?>>Romance</option>
+                        <option value="DR" <?php if($genero == "DR"){ echo "selected";} ?>>Drama</option>
+                        <option value="DO" <?php if($genero == "DO"){ echo "selected";} ?>>Documentário</option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label for="capa">Link da Capa:</label>
-                    <input type="text" name="capa" id="capa" class="form-control">
+                    <input type="text" name="capa" id="capa" class="form-control" value="<?=$capa?>">
                 </div>
 
                 <div class="form-group">
                     <label for="streaming">Link do Streaming:</label>
-                    <input type="text" name="streaming" id="streaming" class="form-control">
+                    <input type="text" name="streaming" id="streaming" class="form-control" value="<?=$streaming?>">
                 </div>
 
                 <div class="form-group">
                     <label for="faixaetaria">Faixa Etária:</label>
                     <select name="faixaetaria" id="faixaetaria" class="form-select">
-                        <option value="L">Livre</option>
-                        <option value="10">10 anos</option>
-                        <option value="12">12 anos</option>
-                        <option value="14">14 anos</option>
-                        <option value="16">16 anos</option>
-                        <option value="18">18 anos</option>
+                        <option value='' <?php if($faixaEtaria == ""){ echo "disabled selected hidden";} ?>>Escolha</option>
+                        <option value="L" <?php if($faixaEtaria == "L"){ echo "selected";} ?>>Livre</option>
+                        <option value="10" <?php if($faixaEtaria == "10"){ echo "selected";} ?>>10 anos</option>
+                        <option value="12" <?php if($faixaEtaria == "12"){ echo "selected";} ?>>12 anos</option>
+                        <option value="14" <?php if($faixaEtaria == "14"){ echo "selected";} ?>>14 anos</option>
+                        <option value="16" <?php if($faixaEtaria == "16"){ echo "selected";} ?>>16 anos</option>
+                        <option value="18" <?php if($faixaEtaria == "18"){ echo "selected";} ?>>18 anos</option>
                     </select>
                 </div>
 
@@ -142,34 +227,43 @@
             <section class="filme form-section" style="display: none;">
                 <div class="form-group">
                     <label for="duracao">Duração (minutos):</label>
-                    <input type="number" name="duracao" id="duracao" class="form-control">
+                    <input type="time" name="duracao" id="duracao" class="form-control" value="<?=$duracao?>">
                 </div>
 
                 <div class="form-group">
                     <label for="estreia">Estreia no cinema:</label>
-                    <input type="date" name="estreia" id="estreia" class="form-control">
+                    <input type="date" name="estreia" id="estreia" class="form-control" value="<?=$estreia?>">
                 </div>
             </section>
 
             <section class="serie form-section" style="display: none;">
                 <div class="form-group">
                     <label for="qtdEpisodios">Quantidade de episódios:</label>
-                    <input type="number" name="qtdEpisodios" id="qtdEpisodios" class="form-control">
+                    <input type="number" name="qtdEpisodios" id="qtdEpisodios" class="form-control" value="<?=$episodios?>">
                 </div>
 
                 <div class="form-group">
                     <label for="qtdTemporadas">Quantidade de Temporadas:</label>
-                    <input type="number" name="qtdTemporadas" id="qtdTemporadas" class="form-control">
+                    <input type="number" name="qtdTemporadas" id="qtdTemporadas" class="form-control" value="<?=$temporadas?>">
                 </div>
 
                 <div class="form-group">
                     <label for="encerramento">Data de encerramento:</label>
-                    <input type="date" name="encerramento" id="encerramento" class="form-control">
+                    <input type="date" name="encerramento" id="encerramento" class="form-control" value="<?=$encerramento?>">
                 </div>
             </section>
 
             <button class="btn btn-primary" type="submit">Enviar</button>
+
+            <div id="erros" style='color: red; font-size: 25px;'>
+    
+                <!-- escrever las cosas aqui -->
+    
+                <?= $msgErro ?>
+    
+            </div>
         </form>
+
 
         <div class="tabela-metragens">
             <h2>Metragens Cadastradas</h2>
